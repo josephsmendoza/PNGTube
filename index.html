@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <script type="text/javascript" src="assets/microphoneLevel.js"></script>
     <div id="avatarBox">
       <img
         id="sprite"
@@ -29,7 +28,7 @@
         id="closed"
         name="closed"
         accept="image/*"
-        onchange="setClosed(this)"
+        onchange="setClosed(this.files[0])"
       />
       <h4>Open mouth:</h4>
       <input
@@ -37,7 +36,7 @@
         id="open"
         name="open"
         accept="image/*"
-        onchange="setOpen(this)"
+        onchange="setOpen(this.files[0])"
       />
       <div id="slidecontainer">
         <p>Speaking cutoff threshold:</p>
@@ -52,5 +51,6 @@
         <p id="sliderValue" style="display: inline">45</p>
       </div>
     </div>
+    <script type="text/javascript" src="assets/microphoneLevel.js"></script>
   </body>
 </html>

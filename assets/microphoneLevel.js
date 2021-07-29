@@ -1,33 +1,49 @@
 let sClosed = "spriteClosed.png";
 let sOpen = "spriteOpen.png";
+let volumeThreshold = 45;
+let local = window.localStorage;
+
 function setClosed(input) {
   let reader = new FileReader();
   reader.addEventListener(
     "load",
     function () {
       sClosed = reader.result;
+      local.setItem("closed",sClosed);
     },
     false
   );
-  reader.readAsDataURL(input.files[0]);
+  reader.readAsDataURL(input);
 }
+
 function setOpen(input) {
   let reader = new FileReader();
   reader.addEventListener(
     "load",
     function () {
       sOpen = reader.result;
+      local.setItem("open", sOpen);
     },
     false
   );
-  reader.readAsDataURL(input.files[0]);
+  reader.readAsDataURL(input);
+}
+
+if (local.getItem("open") !== null) {
+  sOpen = local.getItem("open");
+}
+if (local.getItem("closed") !== null) {
+  sClosed = local.getItem("closed");
+}
+if (local.getItem("volume") !== null) {
+  volumeThreshold = parseInt(local.getItem("volume"));
+  document.getElementById("myRange").value=volumeThreshold+"";
 }
 // Original microphone control code taken from StackOverflow, written by user 'Minding'
 window.onload = function () {
   (async () => {
     let volumeCallback = null;
     let volumeInterval = null;
-    let volumeThreshold = 45;
     const volumeVisualizer = document.getElementById("volume-visualizer");
 
     try {
@@ -57,6 +73,7 @@ window.onload = function () {
         );
         let currentVolume = averageVolume * (100 / 127);
         volumeThreshold = document.getElementById("myRange").value;
+        local.setItem("volume", volumeThreshold);
         document.getElementById("sliderValue").innerText = volumeThreshold;
         if (currentVolume <= volumeThreshold) {
           document.getElementById("sprite").src = sClosed;
