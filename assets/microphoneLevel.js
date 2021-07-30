@@ -2,11 +2,6 @@ let sClosed = "spriteClosed.png";
 let sOpen = "spriteOpen.png";
 let volumeThreshold = 45;
 let local = window.localStorage;
-let socket = new WebSocket("ws://localhost:12345");
-let server = false;
-socket.onopen = function () {
-  server = true;
-};
 
 function setClosed(input) {
   let reader = new FileReader();
@@ -50,61 +45,40 @@ window.onload = function () {
     let volumeCallback = null;
     let volumeInterval = null;
     const volumeVisualizer = document.getElementById("volume-visualizer");
-
-    try {
-      const audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-        },
-      });
-      const audioContext = new AudioContext();
-      const audioSource = audioContext.createMediaStreamSource(audioStream);
-      const analyser = audioContext.createAnalyser();
-      analyser.fftSize = 512;
-      analyser.minDecibels = -127;
-      analyser.maxDecibels = 0;
-      analyser.smoothingTimeConstant = 0.4;
-      audioSource.connect(analyser);
-      const volumes = new Uint8Array(analyser.frequencyBinCount);
-      volumeCallback = () => {
-        analyser.getByteFrequencyData(volumes);
-        let volumeSum = 0;
-        for (const volume of volumes) volumeSum += volume;
-        const averageVolume = volumeSum / volumes.length;
-        // Value range: 127 = analyser.maxDecibels - analyser.minDecibels;
-        volumeVisualizer.style.setProperty(
-          "--volume",
-          (averageVolume * 100) / 127 + "%"
-        );
-        let currentVolume = averageVolume * (100 / 127);
-        volumeThreshold = document.getElementById("myRange").value;
-        local.setItem("volume", volumeThreshold);
-        document.getElementById("sliderValue").innerText = volumeThreshold;
-        if (currentVolume <= volumeThreshold) {
-          document.getElementById("sprite").src = sClosed;
-          if (server) {
-            socket.send(sClosed);
-          }
-        } else {
-          document.getElementById("sprite").src = sOpen;
-          if (server) {
-            socket.send(sOpen);
-          }
-        }
-      };
-    } catch (e) {
-      console.error(
-        "Failed to initialize volume visualizer, attempting local server connection",
-        e
+    const audioStream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        echoCancellation: true,
+      },
+    });
+    const audioContext = new AudioContext();
+    const audioSource = audioContext.createMediaStreamSource(audioStream);
+    const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 512;
+    analyser.minDecibels = -127;
+    analyser.maxDecibels = 0;
+    analyser.smoothingTimeConstant = 0.4;
+    audioSource.connect(analyser);
+    const volumes = new Uint8Array(analyser.frequencyBinCount);
+    volumeCallback = () => {
+      analyser.getByteFrequencyData(volumes);
+      let volumeSum = 0;
+      for (const volume of volumes) volumeSum += volume;
+      const averageVolume = volumeSum / volumes.length;
+      // Value range: 127 = analyser.maxDecibels - analyser.minDecibels;
+      volumeVisualizer.style.setProperty(
+        "--volume",
+        (averageVolume * 100) / 127 + "%"
       );
-      document.getElementById("controlPanel").style.display="none";
-      document.getElementById("avatarBox").style.backgroundColor="transparent";
-      socket.onmessage=function(message){
-        document.getElementById("sprite").src = message.data;
+      let currentVolume = averageVolume * (100 / 127);
+      volumeThreshold = document.getElementById("myRange").value;
+      local.setItem("volume", volumeThreshold);
+      document.getElementById("sliderValue").innerText = volumeThreshold;
+      if (currentVolume <= volumeThreshold) {
+        document.getElementById("sprite").src = sClosed;
+      } else {
+        document.getElementById("sprite").src = sOpen;
       }
-      volumeInterval=null;
-      volumeCallback=null;
-    }
+    };
     if (volumeCallback !== null && volumeInterval === null)
       volumeInterval = setInterval(volumeCallback, 100);
   })();
