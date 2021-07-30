@@ -1,4 +1,6 @@
 # PNGTubie
-Become a PNGTuber without using Discord. Runs in browser, based on mic activity level. https://josephsmendoza.github.io/PNGTubie/
-## WIP
-At the moment you must follow [this tutorial](https://www.youtube.com/watch?v=TAy3rpxdb60) to use PNGTubie. You don't need to download anything or rename files, but you will still need to keep the window open and use obs filters. I plan on fixing this with future updates.
+Become a PNGTuber without using Discord. Runs in OBS, based on mic activity level.
+## Usage
+For this to work as an OBS overlay you must add `--enable-media-stream` to your OBS args, as per [this thread](https://obsproject.com/forum/threads/browser-source-doesnt-allow-microphone-consent-dialogs.80260/). Then you can add the overlay, using your png width and height BUT adding 400 to the height. Then place your overlay so that the extra hight is below the frame, hiding the config menu which you will use to select your images and volume level. To show the "Interact" button you must have the overlay highlighted in your sources.
+
+![example of overlay placement and interact button](example.png)
