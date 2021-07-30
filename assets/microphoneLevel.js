@@ -2,6 +2,11 @@ let sClosed = "spriteClosed.png";
 let sOpen = "spriteOpen.png";
 let volumeThreshold = 45;
 let local = window.localStorage;
+let socket = new WebSocket("ws://localhost:12345");
+let server = false;
+socket.onopen = function () {
+  server = true;
+};
 
 function setClosed(input) {
   let reader = new FileReader();
@@ -77,14 +82,14 @@ window.onload = function () {
         document.getElementById("sliderValue").innerText = volumeThreshold;
         if (currentVolume <= volumeThreshold) {
           document.getElementById("sprite").src = sClosed;
-          document
-            .getElementById("sprite")
-            .style.setProperty("filter", "brightness(90%)");
+          if (server) {
+            socket.send(sClosed);
+          }
         } else {
           document.getElementById("sprite").src = sOpen;
-          document
-            .getElementById("sprite")
-            .style.setProperty("filter", "brightness(100%)");
+          if (server) {
+            socket.send(sOpen);
+          }
         }
       };
     } catch (e) {
