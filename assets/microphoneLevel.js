@@ -99,7 +99,6 @@ window.onload = function () {
       );
       document.getElementById("controlPanel").style.display="none";
       document.getElementById("avatarBox").style.backgroundColor="transparent";
-      const socket=new WebSocket("ws://localhost:12345");
       socket.onmessage=function(message){
         document.getElementById("sprite").src = message.data;
       }
