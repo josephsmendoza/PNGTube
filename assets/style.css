@@ -1,8 +1,7 @@
 #avatarBox {
-  background-color: #00b140;
-  width: 700px;
-  height: 800px;
-  filter: brightness(90%);
+  background-color: #00ff00;
+  width: max-content;
+  height: max-content;
   float: left;
 }
 
@@ -18,7 +17,7 @@
 #controlPanel {
   width: 200px;
   height: 260px;
-  float: left;
+  float: right;
   padding: 5px 10px;
   margin: 0px 5px;
 }

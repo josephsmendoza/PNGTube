@@ -89,19 +89,17 @@ window.onload = function () {
       };
     } catch (e) {
       console.error(
-        "Failed to initialize volume visualizer, simulating instead...",
+        "Failed to initialize volume visualizer, attempting local server connection",
         e
       );
-      // Simulate volume bar
-      let lastVolume = 50;
-      volumeCallback = () => {
-        const volume = Math.min(
-          Math.max(Math.random() * 100, 0.8 * lastVolume),
-          1.2 * lastVolume
-        );
-        lastVolume = volume;
-        volumeVisualizer.style.setProperty("--volume", volume + "%");
-      };
+      document.getElementById("controlPanel").style.display="none";
+      document.getElementById("avatarBox").style.backgroundColor="transparent";
+      const socket=new WebSocket("ws://localhost:12345");
+      socket.onmessage=function(message){
+        document.getElementById("sprite").src = message.data;
+      }
+      volumeInterval=null;
+      volumeCallback=null;
     }
     if (volumeCallback !== null && volumeInterval === null)
       volumeInterval = setInterval(volumeCallback, 100);
