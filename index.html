@@ -20,6 +20,19 @@
       </div>
       <h3>Control panel:</h3>
       <div id="volume-visualizer"></div>
+      <div id="slidecontainer">
+        <h4>Speaking cutoff threshold:</h4>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="45"
+          class="slider"
+          id="myRange"
+        />
+        <p id="sliderValue" style="display: inline">45</p>
+        
+      </div>
       <h4>Closed mouth:</h4>
       <input
         type="file"
@@ -36,18 +49,6 @@
         accept="image/*"
         onchange="setOpen(this.files[0])"
       />
-      <div id="slidecontainer">
-        <p>Speaking cutoff threshold:</p>
-        <input
-          type="range"
-          min="1"
-          max="100"
-          value="45"
-          class="slider"
-          id="myRange"
-        />
-        <p id="sliderValue" style="display: inline">45</p>
-      </div>
     </div>
     <script type="text/javascript" src="assets/microphoneLevel.js"></script>
   </body>
