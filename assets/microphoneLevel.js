@@ -1,6 +1,7 @@
 let sClosed = "spriteClosed.png";
 let sOpen = "spriteOpen.png";
 let volumeThreshold = 45;
+let darkness=90;
 let local = window.localStorage;
 
 function setClosed(input) {
@@ -29,6 +30,13 @@ function setOpen(input) {
   reader.readAsDataURL(input);
 }
 
+function setDarkness(input){
+  darkness=input;
+  document.getElementById("darkVal").innerText = darkness+"%";
+  document.getElementById("darkness").value=darkness+"";
+  local.setItem("darkness",input);
+}
+
 if (local.getItem("open") !== null) {
   sOpen = local.getItem("open");
 }
@@ -38,6 +46,9 @@ if (local.getItem("closed") !== null) {
 if (local.getItem("volume") !== null) {
   volumeThreshold = parseInt(local.getItem("volume"));
   document.getElementById("myRange").value=volumeThreshold+"";
+}
+if (local.getItem("darkness") !== null) {
+  setDarkness(parseInt(local.getItem("darkness")));
 }
 // Original microphone control code taken from StackOverflow, written by user 'Minding'
 window.onload = function () {
@@ -75,8 +86,10 @@ window.onload = function () {
       document.getElementById("sliderValue").innerText = volumeThreshold;
       if (currentVolume <= volumeThreshold) {
         document.getElementById("sprite").src = sClosed;
+        document.getElementById("sprite").style.setProperty('filter', 'brightness('+darkness+'%)');
       } else {
         document.getElementById("sprite").src = sOpen;
+        document.getElementById("sprite").style.setProperty('filter', 'brightness(100%)');
       }
     };
     if (volumeCallback !== null && volumeInterval === null)
