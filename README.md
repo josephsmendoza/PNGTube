@@ -8,3 +8,5 @@ For this to work as an OBS overlay you must add `--enable-media-stream` to your 
 If you first use your image's exact resolution, you can snap the overlay to the corner, then add 400 to the height, and the image will stay perfectly aligned.
 
 You can also set up [Virtual Audio Cable to use filtered OBS mic audio.](VirtualAutioCable.md) 
+
+For animation, you could use an idle GIF for closed and a talking GIF for open.
