@@ -1,5 +1,7 @@
 # Use OBS audio for Overlay via Virtal Audio Cable
 My mic, like many, has a ton of static. It's actually caused by my motherboard but regardless I have to deal with it. In obs I have a noise gate and filter so that the viewers don't hear it, but the overlay will always use the default microphone directly. Well it just so happens that windows also has a default communication microphone in addition to the normal default. Most applications like discord actually use the communication device, so we can take advantage of this to get the overlay to use filtered mic audio.
+## Drawbacks
+There will probably be a noticeable delay in the mouth movement with this method. On my Ryzen 5 3600 the delay is about a second while streaming Titanfall 2 at 1080p60@8000kpbs. This will fluctuate depending on your cpu usage and the filters you use.
 ## Install Virtual Audio Cable
 Make sure to reboot right after the install. You can download this program for free [here](https://vb-audio.com/Cable/) or install it with chocolatey: `choco install vb-cable`
 ## Configure OBS
