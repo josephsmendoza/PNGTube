@@ -1,5 +1,5 @@
-let sClosed = "spriteClosed.png";
-let sOpen = "spriteOpen.png";
+let sClosed = "assets/logo.png";
+let sOpen = "assets/logo.png";
 let volumeThreshold = 45;
 let darkness=90;
 let local = window.localStorage;
