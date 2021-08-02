@@ -1,6 +1,5 @@
 <head>
   <title>PNGTuber</title>
-  <link rel="stylesheet" href="range.css">
 </head>
 <img id="img"></img>
 <div id="controls">
@@ -17,9 +16,15 @@
   <input type="file" accept="image/*" oninput="setTalking(this.files[0])" />
 </div>
 <style>
+  * {
+    font-size: min(5vh, 5vw);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+  }
+
   #img {
     width: 100vw;
-    height: 100%;
+    height: 100vh;
   }
 
   #img:hover+#controls {
@@ -32,7 +37,7 @@
 
   #controls {
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     top: 0px;
     background-color: rgba(127, 127, 127, 0.5);
@@ -40,12 +45,8 @@
   }
 
   #logo {
-    height: 25vw;
-  }
-
-  * {
-    font-size: 4vw;
-    font-family: Arial, Helvetica, sans-serif;
+    max-width: 100vw;
+    max-height: 45vh;
   }
 
   input[type=range] {
@@ -58,16 +59,24 @@
     -webkit-appearance: none;
     appearance: none;
     width: 1vw;
-    height: 3vw;
+    height: 3vh;
     background-color: black;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 75vw;
+    height: 3vh;
+    background-color: white;
   }
 
   #volume-range {
     --volume: 0%;
     position: relative;
     width: 75vw;
-    height: 3vw;
-    background-color: #ddd;
+    height: 3vh;
+    background-color: white;
   }
 
   #volume-range::before {
