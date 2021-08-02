@@ -5,8 +5,6 @@
 <img id="img"></img>
 <div id="controls">
   <img id="logo" src="logo.png" />
-  <p>Current volume</p>
-  <div id="volume-visualizer"></div>
   <p>Volume threshold</p>
   <input type="range" id="volume-range" min="1" max="100" oninput="onVolumeRange(this.value)" />
   <input type="number" id="volume-number" min="1" max="100" oninput="onVolumeNumber(this.value)" />
@@ -35,7 +33,6 @@
   #controls {
     width: 100vw;
     height: 100vw;
-    font-size: 3vw;
     position: absolute;
     top: 0px;
     background-color: rgba(127, 127, 127, 0.5);
@@ -46,15 +43,33 @@
     height: 25vw;
   }
 
-  #volume-visualizer {
+  * {
+    font-size: 4vw;
+  }
+
+  input[type=range] {
+    width: 75vw;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 3vw;
+    background-color: black;
+  }
+
+  #volume-range {
     --volume: 0%;
     position: relative;
-    width: 80vw;
+    width: 75vw;
     height: 3vw;
     background-color: #ddd;
   }
 
-  #volume-visualizer::before {
+  #volume-range::before {
     content: "";
     position: absolute;
     top: 0;
@@ -63,32 +78,6 @@
     width: var(--volume);
     background-color: green;
     transition: width 100ms linear;
-  }
-
-  input {
-    font-size: 3vw;
-  }
-
-  input[type=range] {
-    width: 80vw;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 3vw;
-    height: 3vw;
-    background: black;
-    cursor: pointer;
-  }
-
-  input[type=range]::-webkit-slider-runnable-track {
-    height: 3vw;
-    background-color: #ddd;
-    -webkit-appearance: none;
-    appearance: none;
   }
 </style>
 <script>
@@ -196,7 +185,7 @@
 
   window.onload = function () {
     (async () => {
-      const volumeVisualizer = document.getElementById("volume-visualizer");
+      const volumeVisualizer = document.getElementById("volume-range");
       const audioStream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
