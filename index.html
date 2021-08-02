@@ -1,0 +1,234 @@
+<head>
+  <title>PNGTuber</title>
+  <link rel="stylesheet" href="range.css">
+</head>
+<img id="img"></img>
+<div id="controls">
+  <img id="logo" src="logo.png" />
+  <p>Current volume</p>
+  <div id="volume-visualizer"></div>
+  <p>Volume threshold</p>
+  <input type="range" id="volume-range" min="1" max="100" oninput="onVolumeRange(this.value)" />
+  <input type="number" id="volume-number" min="1" max="100" oninput="onVolumeNumber(this.value)" />
+  <p>Idle brightness</p>
+  <input type="range" id="brightness-range" min="1" max="100" oninput="onBrightnessRange(this.value)" />
+  <input type="number" id="brightness-number" min="1" max="100" oninput="onBrightnessNumber(this.value)" />
+  <p>Idle image</p>
+  <input type="file" accept="image/*" oninput="setIdle(this.files[0])" />
+  <p>Talking image</p>
+  <input type="file" accept="image/*" oninput="setTalking(this.files[0])" />
+</div>
+<style>
+  #img {
+    width: 100vw;
+    height: 100vw;
+  }
+
+  #img:hover+#controls {
+    display: block;
+  }
+
+  #controls:hover {
+    display: block;
+  }
+
+  #controls {
+    width: 100vw;
+    height: 100vw;
+    font-size: 3vw;
+    position: absolute;
+    top: 0px;
+    background-color: rgba(127, 127, 127, 0.5);
+    display: none;
+  }
+
+  #logo {
+    height: 25vw;
+  }
+
+  #volume-visualizer {
+    --volume: 0%;
+    position: relative;
+    width: 80vw;
+    height: 3vw;
+    background-color: #ddd;
+  }
+
+  #volume-visualizer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--volume);
+    background-color: green;
+    transition: width 100ms linear;
+  }
+
+  input {
+    font-size: 3vw;
+  }
+
+  input[type=range] {
+    width: 80vw;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 3vw;
+    height: 3vw;
+    background: black;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 3vw;
+    background-color: #ddd;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+</style>
+<script>
+  const VOLUME = "volume";
+  const VOLUME_RANGE = document.getElementById("volume-range");
+  const VOLUME_NUMBER = document.getElementById("volume-number");
+  const BRIGHTNESS = "brightness";
+  const BRIGHTNESS_RANGE = document.getElementById("brightness-range");
+  const BRIGHTNESS_NUMBER = document.getElementById("brightness-number");
+  const IDLE_IMAGE = "idle-image";
+  const TALKING_IMAGE = "talking-image";
+  const IMAGE = document.getElementById("img");
+  const DEFAULT_VOLUME = 50;
+  const DEFAULT_BRIGHTNESS = 90;
+  const DEFAULT_IDLE = "";
+  const DEFAULT_TALKING = "";
+  const LEGACY_BRIGHTNESS = "darkness";
+  const LEGACY_IDLE = "closed";
+  const LEGACY_TALKING = "open";
+  const storage = window.localStorage;
+
+  if (storage.getItem(LEGACY_BRIGHTNESS) !== null) {
+    storage.setItem(BRIGHTNESS, storage.getItem(LEGACY_BRIGHTNESS));
+    storage.removeItem(LEGACY_BRIGHTNESS);
+  }
+
+  if (storage.getItem(LEGACY_IDLE) !== null) {
+    storage.setItem(IDLE_IMAGE, storage.getItem(LEGACY_IDLE));
+    storage.removeItem(LEGACY_IDLE);
+  }
+
+  if (storage.getItem(LEGACY_TALKING) !== null) {
+    storage.setItem(TALKING_IMAGE, storage.getItem(LEGACY_TALKING));
+    storage.removeItem(LEGACY_TALKING);
+  }
+
+  let volume = storage.getItem(VOLUME);
+  let brightness = storage.getItem(BRIGHTNESS);
+  let idle = storage.getItem(IDLE_IMAGE);
+  let talking = storage.getItem(TALKING_IMAGE);
+
+  if (!volume) {
+    volume = DEFAULT_VOLUME;
+  }
+
+  if (!brightness) {
+    brightness = DEFAULT_BRIGHTNESS;
+  }
+
+  if (!idle) {
+    idle = DEFAULT_IDLE;
+  }
+
+  if (!talking) {
+    talking = DEFAULT_TALKING;
+  }
+
+  VOLUME_RANGE.value = volume;
+  VOLUME_NUMBER.value = volume;
+  BRIGHTNESS_RANGE.value = brightness;
+  BRIGHTNESS_NUMBER.value = brightness;
+  IMAGE.src = idle;
+
+  function onVolumeRange(input) {
+    volume = input;
+    VOLUME_NUMBER.value = input;
+    storage.setItem(VOLUME, input);
+  }
+
+  function onVolumeNumber(input) {
+    volume = input;
+    VOLUME_RANGE.value = input;
+    storage.setItem(VOLUME, input);
+  }
+
+  function onBrightnessRange(input) {
+    brightness = input;
+    BRIGHTNESS_NUMBER.value = input;
+    storage.setItem(BRIGHTNESS, input);
+  }
+
+  function onBrightnessNumber(input) {
+    brightness = input;
+    BRIGHTNESS_RANGE.value = input;
+    storage.setItem(BRIGHTNESS, input);
+  }
+
+  function setIdle(input) {
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+      idle = reader.result;
+      storage.setItem(IDLE_IMAGE, reader.result);
+    }, false);
+    reader.readAsDataURL(input);
+  }
+
+  function setTalking(input) {
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+      talking = reader.result;
+      storage.setItem(TALKING_IMAGE, reader.result);
+    }, false);
+    reader.readAsDataURL(input);
+  }
+
+  window.onload = function () {
+    (async () => {
+      const volumeVisualizer = document.getElementById("volume-visualizer");
+      const audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+        },
+      });
+      const audioContext = new AudioContext();
+      const audioSource = audioContext.createMediaStreamSource(audioStream);
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 512;
+      analyser.minDecibels = -127;
+      analyser.maxDecibels = 0;
+      analyser.smoothingTimeConstant = 0.4;
+      audioSource.connect(analyser);
+      const volumes = new Uint8Array(analyser.frequencyBinCount);
+      const volumeCallback = () => {
+        analyser.getByteFrequencyData(volumes);
+        let volumeSum = 0;
+        for (const volume of volumes) volumeSum += volume;
+        const averageVolume = volumeSum / volumes.length * 100 / 127;
+        volumeVisualizer.style.setProperty(
+          "--volume",
+          averageVolume + "%"
+        );
+        if (averageVolume <= volume) {
+          IMAGE.src = idle;
+          IMAGE.style.setProperty('filter', 'brightness(' + brightness + '%)');
+        } else {
+          IMAGE.src = talking;
+          IMAGE.style.setProperty('filter', 'brightness(100%)');
+        }
+      };
+      setInterval(volumeCallback, 100);
+    })();
+  };
+</script>
