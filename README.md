@@ -9,4 +9,4 @@ If you first use your image's exact resolution, you can snap the overlay to the 
 
 You can also set up [Virtual Audio Cable to use filtered OBS mic audio.](VirtualAutioCable.md) 
 
-For animation, you could use an idle GIF for closed and a talking GIF for open.
+For animation, you could use an idle/blinking GIF for closed and a talking GIF for open.
