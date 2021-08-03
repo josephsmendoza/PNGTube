@@ -109,25 +109,28 @@
   const LEGACY_TALKING = "open";
   const storage = window.localStorage;
 
-  if (storage.getItem(LEGACY_BRIGHTNESS) !== null) {
-    storage.setItem(BRIGHTNESS, storage.getItem(LEGACY_BRIGHTNESS));
-    storage.removeItem(LEGACY_BRIGHTNESS);
-  }
-
-  if (storage.getItem(LEGACY_IDLE) !== null) {
-    storage.setItem(IDLE_IMAGE, storage.getItem(LEGACY_IDLE));
-    storage.removeItem(LEGACY_IDLE);
-  }
-
-  if (storage.getItem(LEGACY_TALKING) !== null) {
-    storage.setItem(TALKING_IMAGE, storage.getItem(LEGACY_TALKING));
-    storage.removeItem(LEGACY_TALKING);
-  }
-
   let volume = storage.getItem(VOLUME);
   let brightness = storage.getItem(BRIGHTNESS);
   let idle = storage.getItem(IDLE_IMAGE);
   let talking = storage.getItem(TALKING_IMAGE);
+
+  if (storage.getItem(LEGACY_BRIGHTNESS) !== null) {
+    volume=storage.getItem(LEGACY_BRIGHTNESS);
+    storage.removeItem(LEGACY_BRIGHTNESS);
+    storage.setItem(BRIGHTNESS, volume);
+  }
+
+  if (storage.getItem(LEGACY_IDLE) !== null) {
+    idle=storage.getItem(LEGACY_IDLE);
+    storage.removeItem(LEGACY_IDLE);
+    storage.setItem(IDLE_IMAGE, idle);
+  }
+
+  if (storage.getItem(LEGACY_TALKING) !== null) {
+    talking=storage.getItem(LEGACY_TALKING);
+    storage.removeItem(LEGACY_TALKING);
+    storage.setItem(TALKING_IMAGE, talking);
+  }
 
   if (!volume) {
     volume = DEFAULT_VOLUME;
