@@ -91,6 +91,7 @@
   }
 </style>
 <script>
+
   const VOLUME = "volume";
   const VOLUME_RANGE = document.getElementById("volume-range");
   const VOLUME_NUMBER = document.getElementById("volume-number");
@@ -115,21 +116,15 @@
   let talking = storage.getItem(TALKING_IMAGE);
 
   if (storage.getItem(LEGACY_BRIGHTNESS) !== null) {
-    volume=storage.getItem(LEGACY_BRIGHTNESS);
-    storage.removeItem(LEGACY_BRIGHTNESS);
-    storage.setItem(BRIGHTNESS, volume);
+    storage.clear();
   }
 
   if (storage.getItem(LEGACY_IDLE) !== null) {
-    idle=storage.getItem(LEGACY_IDLE);
-    storage.removeItem(LEGACY_IDLE);
-    storage.setItem(IDLE_IMAGE, idle);
+    storage.clear();
   }
 
   if (storage.getItem(LEGACY_TALKING) !== null) {
-    talking=storage.getItem(LEGACY_TALKING);
-    storage.removeItem(LEGACY_TALKING);
-    storage.setItem(TALKING_IMAGE, talking);
+    storage.clear();
   }
 
   if (!volume) {
