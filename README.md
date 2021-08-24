@@ -5,6 +5,6 @@ For this to work as an OBS overlay you must add `--enable-media-stream` to your 
 
 ![example of overlay placement and interact button](example.png)
 
-You can also set up [Virtual Audio Cable to use filtered OBS mic audio.](VirtualAutioCable.md) 
+~~You can also set up [Virtual Audio Cable to use filtered OBS mic audio.](VirtualAutioCable.md)~~ You can install noise supression system-wide for free with a little tinkering, just read through [this reddit post](https://www.reddit.com/r/Twitch/comments/bjz5m2/finally_found_a_way_to_autobuild_noise_profiles/).
 
 For animation, you could use an idle/blinking GIF for closed and a talking GIF for open.
