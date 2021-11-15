@@ -6,3 +6,5 @@ For this to work as an OBS overlay you must add `--enable-media-stream` to your 
 ![example of overlay placement and interact button](example.png)
 
 If your mic has too much static for the overlay to reliably detect your voice, you can install noise supression system-wide using [Equalizer APO](https://sourceforge.net/projects/equalizerapo/) with the [RNNoise](https://github.com/werman/noise-suppression-for-voice) plugin.
+
+If you need any help, join the [discord](https://discord.gg/zxDnYSvMNw)
