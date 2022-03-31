@@ -111,6 +111,7 @@
   const IMAGE = document.getElementById("img");
   const DEFAULT_VOLUME = 50;
   const DEFAULT_BRIGHTNESS = 90;
+  const DEFAULT_TIME=0.25;
   const DEFAULT_IDLE = "";
   const DEFAULT_TALKING = "";
   const LEGACY_BRIGHTNESS = "darkness";
@@ -186,6 +187,7 @@
       try {
         volume = await storage.getItem(VOLUME) || DEFAULT_VOLUME;
         brightness = await storage.getItem(BRIGHTNESS) || DEFAULT_BRIGHTNESS;
+        time=await storage.getItem(TIME) || DEFAULT_TIME;
         idle = await storage.getItem(IDLE_IMAGE) || DEFAULT_IDLE;
         talking = await storage.getItem(TALKING_IMAGE) || DEFAULT_TALKING;
 
