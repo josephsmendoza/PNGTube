@@ -14,6 +14,9 @@
   <p>Transition time</p>
   <input type="range" id="time-range" min="0" max="1" step="0.01" oninput="onTimeRange(this.value)" />
   <input type="number" id="time-number" min="0" max="1" step="0.01" oninput="onTimeNumber(this.value)" />
+  <p>Jump height</p>
+  <input type="range" id="height-range" min="0" max="100" oninput="onHeightRange(this.value)" />
+  <input type="number" id="height-number" min="0" max="100" oninput="onHeightNumber(this.value)" />
   <p>Idle image</p>
   <input type="file" accept="image/*" oninput="setIdle(this.files[0])" />
   <p>Talking image</p>
@@ -28,8 +31,8 @@
 
   #img {
     position: absolute;
-    width: 100vw;
-    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
     transition: 0.25s;
   }
 
@@ -107,12 +110,16 @@
   const TIME="time";
   const TIME_RANGE=document.getElementById("time-range");
   const TIME_NUMBER=document.getElementById("time-number");
+  const HEIGHT="height";
+  const HEIGHT_RANGE=document.getElementById("height-range");
+  const HEIGHT_NUMBER=document.getElementById("height-number");
   const IDLE_IMAGE = "idle-image";
   const TALKING_IMAGE = "talking-image";
   const IMAGE = document.getElementById("img");
   const DEFAULT_VOLUME = 50;
   const DEFAULT_BRIGHTNESS = 90;
   const DEFAULT_TIME=0.25;
+  const DEFAULT_HEIGHT=5;
   const DEFAULT_IDLE = "";
   const DEFAULT_TALKING = "";
   const LEGACY_BRIGHTNESS = "darkness";
@@ -125,6 +132,13 @@
   let time;
   let idle;
   let talking;
+  let height;
+
+  function setHeight(input){
+    height=input;
+    IMAGE.style.maxHeight=(100-height)+"vh";
+    IMAGE.style.top=height+"vh";
+  }
 
   function setTime (input) {
     document.getElementById("img").style.transition=input;
@@ -185,10 +199,16 @@
     storage.setItem(TIME, input);
   }
 
-  async function bounce(){
-    IMAGE.style.top="-10vh";
-    await new Promise(r => setTimeout(r, time*1000));
-    IMAGE.style.top="0vh";
+  function onHeightRange(input){
+    setHeight(input);
+    HEIGHT_NUMBER.value=input;
+    storage.setItem(HEIGHT,input);
+  }
+
+  function onHeightNumber(input){
+    setHeight(input);
+    HEIGHT_RANGE.value=input;
+    storage.setItem(HEIGHT,input);
   }
 
   window.onload = function () {
@@ -199,6 +219,7 @@
         idle = await storage.getItem(IDLE_IMAGE) || DEFAULT_IDLE;
         talking = await storage.getItem(TALKING_IMAGE) || DEFAULT_TALKING;
 
+        setHeight(await storage.getItem(HEIGHT) || DEFAULT_HEIGHT);
         setTime(await storage.getItem(TIME) || DEFAULT_TIME);
 
         VOLUME_RANGE.value = volume;
@@ -207,6 +228,8 @@
         BRIGHTNESS_NUMBER.value = brightness;
         TIME_RANGE.value=time;
         TIME_NUMBER.value=time;
+        HEIGHT_NUMBER=height;
+        HEIGHT_RANGE=height;
         IMAGE.src = idle;
 
         const volumeVisualizer = document.getElementById("volume-range");
@@ -224,7 +247,7 @@
         analyser.smoothingTimeConstant = 0.4;
         audioSource.connect(analyser);
         const volumes = new Uint8Array(analyser.frequencyBinCount);
-        const volumeCallback = () => {
+        const volumeCallback = async () => {
           analyser.getByteFrequencyData(volumes);
           let volumeSum = 0;
           for (const volume of volumes) volumeSum += volume;
@@ -239,7 +262,9 @@
           } else {
             IMAGE.src = talking;
             IMAGE.style.setProperty('filter', 'brightness(100%)');
-            bounce();
+            IMAGE.style.top="0vh";
+            await new Promise(r => setTimeout(r, time*1000));
+            IMAGE.style.top=height+"vh";
           }
         };
         setInterval(volumeCallback, 100);
