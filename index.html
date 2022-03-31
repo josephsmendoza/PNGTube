@@ -33,7 +33,8 @@
     position: absolute;
     max-width: 100vw;
     max-height: 100vh;
-    transition: 0.25s;
+    transition-duration: 0.25s;
+    transition-timing-function: linear;
   }
 
   #img:hover+#controls {
@@ -141,7 +142,7 @@
   }
 
   function setTime (input) {
-    document.getElementById("img").style.transition=input+'s';
+    document.getElementById("img").style.transitionDuration=input+'s';
     time=input;
   }
 
