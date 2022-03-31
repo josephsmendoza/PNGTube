@@ -187,9 +187,10 @@
       try {
         volume = await storage.getItem(VOLUME) || DEFAULT_VOLUME;
         brightness = await storage.getItem(BRIGHTNESS) || DEFAULT_BRIGHTNESS;
-        time=await storage.getItem(TIME) || DEFAULT_TIME;
         idle = await storage.getItem(IDLE_IMAGE) || DEFAULT_IDLE;
         talking = await storage.getItem(TALKING_IMAGE) || DEFAULT_TALKING;
+
+        setTime(await storage.getItem(TIME) || DEFAULT_TIME);
 
         VOLUME_RANGE.value = volume;
         VOLUME_NUMBER.value = volume;
