@@ -117,6 +117,24 @@
   let idle;
   let talking;
 
+  function setIdle(input) {
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+      idle = reader.result;
+      storage.setItem(IDLE_IMAGE, reader.result);
+    }, false);
+    reader.readAsDataURL(input);
+  }
+
+  function setTalking(input) {
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+      talking = reader.result;
+      storage.setItem(TALKING_IMAGE, reader.result);
+    }, false);
+    reader.readAsDataURL(input);
+  }
+
   function onVolumeRange(input) {
     volume = input;
     VOLUME_NUMBER.value = input;
@@ -141,23 +159,7 @@
     storage.setItem(BRIGHTNESS, input);
   }
 
-  function setIdle(input) {
-    const reader = new FileReader();
-    reader.addEventListener("load", function () {
-      idle = reader.result;
-      storage.setItem(IDLE_IMAGE, reader.result);
-    }, false);
-    reader.readAsDataURL(input);
-  }
 
-  function setTalking(input) {
-    const reader = new FileReader();
-    reader.addEventListener("load", function () {
-      talking = reader.result;
-      storage.setItem(TALKING_IMAGE, reader.result);
-    }, false);
-    reader.readAsDataURL(input);
-  }
 
   window.onload = function () {
     (async () => {
