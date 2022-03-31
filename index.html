@@ -12,8 +12,8 @@
   <input type="range" id="brightness-range" min="1" max="100" oninput="onBrightnessRange(this.value)" />
   <input type="number" id="brightness-number" min="1" max="100" oninput="onBrightnessNumber(this.value)" />
   <p>Transition time</p>
-  <input type="range" id="time-range" min="0" max="1" oninput="onTimeRange(this.value)" />
-  <input type="number" id="time-number" min="0" max="1" oninput="onTimeNumber(this.value)" />
+  <input type="range" id="time-range" min="0" max="1" step="0.01" oninput="onTimeRange(this.value)" />
+  <input type="number" id="time-number" min="0" max="1" step="0.01" oninput="onTimeNumber(this.value)" />
   <p>Idle image</p>
   <input type="file" accept="image/*" oninput="setIdle(this.files[0])" />
   <p>Talking image</p>
