@@ -185,6 +185,12 @@
     storage.setItem(TIME, input);
   }
 
+  async function bounce(){
+    IMAGE.style.top="-10vh";
+    await new Promise(r => setTimeout(r, time*1000));
+    IMAGE.style.top="0vh";
+  }
+
   window.onload = function () {
     (async () => {
       try {
@@ -233,9 +239,7 @@
           } else {
             IMAGE.src = talking;
             IMAGE.style.setProperty('filter', 'brightness(100%)');
-            IMAGE.style.top="-10vh";
-            await new Promise(r => setTimeout(r, time*1000));
-            IMAGE.style.top="0vh";
+            bounce();
           }
         };
         setInterval(volumeCallback, 100);
