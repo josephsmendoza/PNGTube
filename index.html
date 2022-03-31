@@ -259,7 +259,7 @@
           if (averageVolume <= volume) {
             IMAGE.src = idle;
             IMAGE.style.setProperty('filter', 'brightness(' + brightness + '%)');
-          } else {
+          } else if (IMAGE.src!=talking) {
             IMAGE.src = talking;
             IMAGE.style.setProperty('filter', 'brightness(100%)');
             IMAGE.style.top="0vh";
