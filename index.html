@@ -27,6 +27,7 @@
   }
 
   #img {
+    position: absolute;
     width: 100vw;
     height: 100vh;
     transition: 0.25s;
@@ -121,11 +122,13 @@
 
   let volume;
   let brightness;
+  let time;
   let idle;
   let talking;
 
   function setTime (input) {
     document.getElementById("img").style.transition=input;
+    time=input;
   }
 
   function setIdle(input) {
@@ -228,6 +231,9 @@
           } else {
             IMAGE.src = talking;
             IMAGE.style.setProperty('filter', 'brightness(100%)');
+            IMAGE.style.top="-10vh";
+            await new Promise(r => setTimeout(r, time*1000));
+            IMAGE.style.top="0vh";
           }
         };
         setInterval(volumeCallback, 100);
