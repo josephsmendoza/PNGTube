@@ -2,7 +2,9 @@
 <head>
   <title>PNGTuber</title>
 </head>
-<img id="img"></img>
+<div id="imgdiv">
+  <img id="img"></img>
+</div>
 <div id="controls">
   <img id="logo" src="logo.png" />
   <p>Volume threshold</p>
@@ -34,6 +36,12 @@
     max-width: 100vw;
     max-height: 100vh;
     transition-duration: 0.2s;
+  }
+
+  #imgdiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   #controls:hover {
