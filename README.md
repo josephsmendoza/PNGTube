@@ -1,7 +1,7 @@
 # PNGTube
 Become a PNGTuber without using Discord. Runs in OBS using voice activation.
 ## Usage
-For this to work as an OBS overlay you must add `--enable-media-stream` to your OBS launch paramaters, as per [this thread](https://obsproject.com/forum/threads/browser-source-doesnt-allow-microphone-consent-dialogs.80260/). Then you can add this overlay using the url https://sugoidogo.github.io/PNGTube/. I recommend using 1080 by 1080 for the width and height, but your image will scale to whatever resoltion you use. To show the "Interact" button like in the picture below you must have the brouser source selected in your sources list, and you can configure the overlay from there.
+For this to work as an OBS overlay you must add `--enable-media-stream` to your OBS launch paramaters, as per [this thread](https://obsproject.com/forum/threads/browser-source-doesnt-allow-microphone-consent-dialogs.80260/post-521079). Then you can add this overlay using the url https://sugoidogo.github.io/PNGTube/. I recommend using 1080 by 1080 for the width and height, but your image will scale to whatever resoltion you use. To show the "Interact" button like in the picture below you must have the brouser source selected in your sources list, and you can configure the overlay from there.
 
 ![example of overlay placement and interact button](example.png)
 
