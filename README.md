@@ -1,3 +1,6 @@
+# Archived
+TL;DR: [use pngtube v4](https://github.com/sugoidogo/pngtube2)  
+I've noticed people are starting to star this project on github, but this version of this software is out of development. I created a seperate repo for pngtube v2 because it depends on an additional script I wrote and had it's own host of issues compared to this version. However, I since realized that the script I wrote was simply an alternate implementation of fucntionality already availible in the obs-websocket plugin, which was merged for OBS 28. Pngtube v4 now uses that plugin, requiring no additional installation on OBS 28+. As of writing, the current version of OBS is 27, requiring you install the websocket plugin, but having far better functionality.
 # PNGTube
 Become a PNGTuber without using Discord. Runs in OBS using voice activation.
 ## Usage
